@@ -119,6 +119,26 @@ public class ModifiedPlayfairCipher {
         return digraphs;
     }
 
+private static String decrypt(List<String> digraphs, char[][] matrix) {
+        StringBuilder ciphertext = new StringBuilder();
+        for (String digraph : digraphs) {
+            int[] pos1 = findPosition(matrix, digraph.charAt(0));
+            int[] pos2 = findPosition(matrix, digraph.charAt(1));
+
+            if (pos1[0] == pos2[0]) {
+                ciphertext.append(matrix[pos1[0]][(pos1[1] + 1) % SIZE]);
+                ciphertext.append(matrix[pos2[0]][(pos2[1] + 1) % SIZE]);
+            } else if (pos1[1] == pos2[1]) {
+                ciphertext.append(matrix[(pos1[0] + 1) % SIZE][pos1[1]]);
+                ciphertext.append(matrix[(pos2[0] + 1) % SIZE][pos2[1]]);
+            } else {
+                ciphertext.append(matrix[pos1[0]][pos2[1]]);
+                ciphertext.append(matrix[pos2[0]][pos1[1]]);
+            }
+        }
+        return ciphertext.toString();
+    }
+    
     private static void printMatrix(String label, char[][] matrix) {
         System.out.println(label + ":");
         for (char[] row : matrix) {
