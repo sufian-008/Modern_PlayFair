@@ -98,6 +98,15 @@ public class ModifiedPlayfairCipher {
         }
         return permutedMatrix;
     }
+    private static char[][] transposeMatrix(char[][] matrix) {
+        char[][] transposedMatrix = new char[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                transposedMatrix[j][i] = matrix[i][j];
+            }
+        }
+        return transposedMatrix;
+    }
 
     private static void printMatrix(String label, char[][] matrix) {
         System.out.println(label + ":");
