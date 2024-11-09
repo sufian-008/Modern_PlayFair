@@ -138,7 +138,41 @@ private static String decrypt(List<String> digraphs, char[][] matrix) {
         }
         return ciphertext.toString();
     }
-    
+
+     private static String encrypt(List<String> digraphs, char[][] matrix) {
+        StringBuilder plaintext = new StringBuilder();
+        for (String digraph : digraphs) {
+            int[] pos1 = findPosition(matrix, digraph.charAt(0));
+            int[] pos2 = findPosition(matrix, digraph.charAt(1));
+
+            if (pos1[0] == pos2[0]) {
+                plaintext.append(matrix[pos1[0]][(pos1[1] + SIZE - 1) % SIZE]);
+                plaintext.append(matrix[pos2[0]][(pos2[1] + SIZE - 1) % SIZE]);
+            } else if (pos1[1] == pos2[1]) {
+                plaintext.append(matrix[(pos1[0] + SIZE - 1) % SIZE][pos1[1]]);
+                plaintext.append(matrix[(pos2[0] + SIZE - 1) % SIZE][pos2[1]]);
+            } else {
+                plaintext.append(matrix[pos1[0]][pos2[1]]);
+                plaintext.append(matrix[pos2[0]][pos1[1]]);
+            }
+        }
+        return plaintext.toString();
+    }
+
+    private static int[] findPosition(char[][] matrix, char c) {
+        // Handle padding character (X) in case it's used to replace spaces
+        if (c == ' ') c = PADDING_CHAR; // Replace space with 'X' if needed
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == c) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        throw new IllegalArgumentException("Character not found in matrix: " + c);
+    }
+
     private static void printMatrix(String label, char[][] matrix) {
         System.out.println(label + ":");
         for (char[] row : matrix) {
