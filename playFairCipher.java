@@ -91,7 +91,13 @@ public class ModifiedPlayfairCipher {
         }
         return keyMatrix;
     }
-    
+    private static char[][] permuteRows(char[][] matrix, int[] permKey) {
+        char[][] permutedMatrix = new char[matrix.length][matrix[0].length];
+        for (int i = 0; i < permKey.length; i++) {
+            permutedMatrix[i] = matrix[permKey[i]];
+        }
+        return permutedMatrix;
+    }
 
     private static void printMatrix(String label, char[][] matrix) {
         System.out.println(label + ":");
