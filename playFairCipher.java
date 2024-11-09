@@ -108,6 +108,17 @@ public class ModifiedPlayfairCipher {
         return transposedMatrix;
     }
 
+     private static List<String> createDigraphs(String text) {
+        List<String> digraphs = new ArrayList<>();
+        text = text.replace(" ", String.valueOf(PADDING_CHAR)); // Replace spaces with 'X'
+        for (int i = 0; i < text.length(); i += 2) {
+            char first = text.charAt(i);
+            char second = (i + 1 < text.length() && text.charAt(i + 1) != first) ? text.charAt(i + 1) : PADDING_CHAR;
+            digraphs.add("" + first + second);
+        }
+        return digraphs;
+    }
+
     private static void printMatrix(String label, char[][] matrix) {
         System.out.println(label + ":");
         for (char[] row : matrix) {
